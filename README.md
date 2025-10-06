@@ -26,7 +26,7 @@ Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna
 ## Hızlı Başlangıç
 
 1) Depoyu klonla
-- git clone <repo-url>
+- git clone https://github.com/aakcay5656/interpol-notice-tracker.git
 - cd interpol-notice-tracker
 
 2) .env dosyasını hazırla
