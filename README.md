@@ -1,26 +1,26 @@
 # Interpol Red Notice Tracker
 
-Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna yazan, oradan tüketip PostgreSQL’e kaydeden ve FastAPI tabanlı bir web arayüzünde canlı olarak gösteren mikroservis projesi.[3][4]
+Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna yazan, oradan tüketip PostgreSQL’e kaydeden ve FastAPI tabanlı bir web arayüzünde canlı olarak gösteren mikroservis projesi.
 
 ### Mimarinin Özeti
 
-- Fetcher (Container A): Interpol Red Notice verisini çeker, RabbitMQ’ya mesaj olarak yayınlar.[5]
-- Web Server (Container B): RabbitMQ’dan mesaj tüketir, PostgreSQL’e kaydeder, web arayüzünde listeler.[1]
-- RabbitMQ (Container C): Mesaj kuyruğu sistemi, Management UI ile gözlemleme.[6]
+- Fetcher (Container A): Interpol Red Notice verisini çeker, RabbitMQ’ya mesaj olarak yayınlar.
+- Web Server (Container B): RabbitMQ’dan mesaj tüketir, PostgreSQL’e kaydeder, web arayüzünde listeler. 
+- RabbitMQ (Container C): Mesaj kuyruğu sistemi, Management UI ile gözlemleme.
 
 ## Özellikler
 
-- FastAPI + Jinja2 ile basit ve hızlı web arayüzü.[1]
-- RabbitMQ üzerinden producer/consumer mimarisi.[3]
-- SQLAlchemy ORM ile PostgreSQL kalıcı depolama.[5]
-- Docker Compose ile tek komutla build ve orkestrasyon.[1]
-- .env ile konfigürasyon, kod değiştirmeden ayar yönetimi.[7]
+- FastAPI + Jinja2 ile basit ve hızlı web arayüzü.
+- RabbitMQ üzerinden producer/consumer mimarisi.
+- SQLAlchemy ORM ile PostgreSQL kalıcı depolama.
+- Docker Compose ile tek komutla build ve orkestrasyon.
+- .env ile konfigürasyon, kod değiştirmeden ayar yönetimi.
 - Test modu (TEST_MODE) ile gerçek API olmadan mock veri akışı.
 
 ## Gereksinimler
 
-- Docker 20.10+ ve Docker Compose.[1]
-- 2 GB+ RAM önerilir (RabbitMQ + PostgreSQL için).[8]
+- Docker 20.10+ ve Docker Compose
+- 2 GB+ RAM önerilir (RabbitMQ + PostgreSQL için)
 
 ## Hızlı Başlangıç
 
@@ -57,8 +57,8 @@ Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna
 
 ## Çalışma Akışı
 
-- Fetcher, INTERPOL_API_URL adresinden periyodik GET isteği yapar ve notice’leri tek tek RabbitMQ kuyruğuna gönderir.[3]
-- Web Server, RabbitMQ kuyruğunu dinler, mesajları PostgreSQL’e yazar ve / üzerinden HTML tablo olarak gösterir.[1]
+- Fetcher, INTERPOL_API_URL adresinden periyodik GET isteği yapar ve notice’leri tek tek RabbitMQ kuyruğuna gönderir
+- Web Server, RabbitMQ kuyruğunu dinler, mesajları PostgreSQL’e yazar ve / üzerinden HTML tablo olarak gösterir
 - Kayıt güncellenirse arayüzde “GÜNCELLENDİ” olarak vurgulanır.
 
 ## Konfigürasyon
@@ -67,13 +67,13 @@ Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna
   - FETCH_INTERVAL: Saniye cinsinden çekme periyodu
   - RESULTS_PER_PAGE: API’dan sayfa başına çekilecek kayıt
   - TEST_MODE: true ise mock veri üretilir
-- docker-compose.yml, .env içindeki değişkenleri kullanır.[7]
+- docker-compose.yml, .env içindeki değişkenleri kullanır. 
 
 ## RabbitMQ
 
 - Kuyruk adı: interpol_notices
-- Kalıcılık: queue durable, mesaj delivery_mode=2 ile kalıcı.[5]
-- İzleme: RabbitMQ UI üzerinden Queues sekmesi.[6]
+- Kalıcılık: queue durable, mesaj delivery_mode=2 ile kalıcı.
+- İzleme: RabbitMQ UI üzerinden Queues sekmesi.
 
 ## Veritabanı
 
@@ -91,21 +91,19 @@ Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna
 
 ## Sık Karşılaşılan Sorunlar
 
-- 403 Forbidden (API): Browser’da çalışıp kodda çalışmıyorsa anti-bot korumalarından dolayı curl-cffi ile browser impersonation kullanılır.[4][3]
-- “database does not exist”: Eski volume çakışmaları için docker-compose down -v ardından yeniden başlatın.[1]
+- 403 Forbidden (API): Browser’da çalışıp kodda çalışmıyorsa anti-bot korumalarından dolayı curl-cffi ile browser impersonation kullanılır.
+- “database does not exist”: Eski volume çakışmaları için docker-compose down -v ardından yeniden başlatın.
 - Healthcheck hataları: Postgres healthcheck’te -d ${POSTGRES_DB} parametresi kullanın.
+## References
+
+- [Dockerizing Celery and FastAPI - TestDriven.io](https://testdriven.io/courses/fastapi-celery/docker/)
+- [FastAPI + Celery + Flower + RabbitMQ + Redis Example](https://github.com/luovkle/fastapi-celery-flower-rabbitmq-redis)
+- [Building a FastAPI Application with Celery, RabbitMQ, and PostgreSQL](https://blog.devgenius.io/building-a-fastapi-application-with-celery-rabbitmq-and-postgresql-dockerized-a-step-by-step-e4583bde4d6b)
+- [FastAPI + PostgreSQL + RabbitMQ + Docker Example](https://blog.devops.dev/fastapi-postgresql-alembic-sqlalchemy-rabbitmq-docker-example-10c34f100167)
+- [Python ML in Production - FastAPI + Celery with Docker](https://denisbrogg.hashnode.dev/python-ml-in-production-part-1-fastapi-celery-with-docker)
+- [FastAPI Template Issues - Open Collective](https://opencollective.ecosyste.ms/collectives/fastapi-template/issues)
+- [FastAPI + PostgreSQL + Celery + RabbitMQ + Redis Backend Discussion](https://www.reddit.com/r/FastAPI/comments/nshn5b/fastapipostgresqlceleryrabbitmq-redis_backend_with/)
 
 ## Lisans
 
 - MIT Lisansı
-
-Bu README, FastAPI + RabbitMQ + PostgreSQL + Docker Compose ile tipik bir mikroservis kurulumunun temelini esas alır ve benzer örneklerden faydalanır.[4][3][5][1]
-
-[1](https://testdriven.io/courses/fastapi-celery/docker/)
-[2](https://docs.techstartucalgary.com/projects/readme/index.html)
-[3](https://github.com/luovkle/fastapi-celery-flower-rabbitmq-redis)
-[4](https://blog.devgenius.io/building-a-fastapi-application-with-celery-rabbitmq-and-postgresql-dockerized-a-step-by-step-e4583bde4d6b)
-[5](https://blog.devops.dev/fastapi-postgresql-alembic-sqlalchemy-rabbitmq-docker-example-10c34f100167)
-[6](https://denisbrogg.hashnode.dev/python-ml-in-production-part-1-fastapi-celery-with-docker)
-[7](https://opencollective.ecosyste.ms/collectives/fastapi-template/issues)
-[8](https://www.reddit.com/r/FastAPI/comments/nshn5b/fastapipostgresqlceleryrabbitmqredis_backend_with/)
