@@ -1,3 +1,4 @@
+TR
 # Interpol Red Notice Tracker
 
 Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna yazan, oradan tüketip PostgreSQL’e kaydeden ve FastAPI tabanlı bir web arayüzünde canlı olarak gösteren mikroservis projesi.
@@ -109,7 +110,7 @@ Interpol kırmızı liste verilerini periyodik olarak çekip RabbitMQ kuyruğuna
 - MIT Lisansı
 
 ---------------------------------
-
+EN
 # Interpol Red Notice Tracker
 
 A microservices project that periodically fetches Interpol red notice data, publishes it to RabbitMQ queue, consumes from the queue to store in PostgreSQL, and displays live updates through a FastAPI-based web interface.
